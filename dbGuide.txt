@@ -1,0 +1,56 @@
+1 step -> 
+        npx create-turbo@latest
+        cd packages
+        mkdir db
+        cd db
+        bun init 
+        bun install prisma
+        bunx prisma init
+
+        bun add -d prisma @types/pg
+        bun add @prisma/client @prisma/adapter-pg pg
+
+
+2 step -> 
+        add env and schema model and save .env and export it.
+
+        bunx prisma migrate dev
+        bunx prisma generate
+
+        #in root index.ts
+        import { PrismaClient } from "./generated/prisma/client";
+        import { PrismaPg } from "@prisma/adapter-pg";
+
+        const adapter = new PrismaPg({
+            connectionString: process.env.DATABASE_URL!,
+        });
+
+        export const Prismaclient = new PrismaClient({
+            adapter,
+        });
+
+
+3 step -> apps/web
+            
+            -># .env at root
+            ->bun add @prisma/client@latest
+
+            ->#packages.json
+            import "prisma" = "*"
+
+            ->#page.tsx
+            import { prisma } from "prisma/client";
+
+            export default async function Home() {
+            const users = await prisma.user.findMany();
+            return (
+                <div>
+                {JSON.stringify(users)}
+                </div>
+            );
+            }
+
+4 step -> wherever you're import this client add this line at top
+            -> add .env
+            -> import "dotenv/config";
+
