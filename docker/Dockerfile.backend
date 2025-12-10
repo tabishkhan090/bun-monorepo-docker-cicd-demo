@@ -10,9 +10,8 @@ COPY ./turbo.json ./turbo.json
 COPY ./apps/backend ./apps/backend
 RUN bun run install
 
-RUN bun run db:generate
+RUN bun run prisma:generate
 
 EXPOSE 8080
 
 CMD ["bun", "run", "start:backend"]
-
