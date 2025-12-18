@@ -12,6 +12,6 @@ RUN bun run install
 
 RUN bun run prisma:generate
 
-EXPOSE 8080
+EXPOSE 8081
 
 CMD ["bun", "run", "start:ws"]
