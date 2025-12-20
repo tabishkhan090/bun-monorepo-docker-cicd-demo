@@ -10,7 +10,7 @@ COPY ./packages ./packages
 COPY ./bun.lock ./bun.lock
 COPY ./turbo.json ./turbo.json
 
-COPY ./apps/frontend ./apps/frontend
+COPY ./apps/web ./apps/web
 RUN bun run install
 
 RUN bun run prisma:generate
@@ -18,7 +18,7 @@ RUN bun run build
 
 EXPOSE 8080
 
-CMD ["bun", "run", "start:frontend"]
+CMD ["bun", "run", "start:web"]
 
 
 # docker build -build-arg DATABASE_URL="postgres" -t todo-app-backend -f ./docker/Dockerfile/frontend .
