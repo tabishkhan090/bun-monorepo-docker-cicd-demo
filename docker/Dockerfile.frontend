@@ -14,7 +14,7 @@ COPY ./apps/web ./apps/web
 RUN bun run install
 
 RUN bun run prisma:generate
-RUN bun run build
+RUN DATABASE_URL=${DATABASE_URL} bun run build
 
 EXPOSE 8080
 
