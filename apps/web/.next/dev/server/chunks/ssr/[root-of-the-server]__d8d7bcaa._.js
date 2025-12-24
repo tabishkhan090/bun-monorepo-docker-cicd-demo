@@ -298,7 +298,10 @@ async function Home() {
         lineNumber: 6,
         columnNumber: 5
     }, this);
-}
+} // export const revalidate = 60 // revalidate every 60 seconds
+ // or
+ // export const dynamic = 'force-dynamic'
+ // DATABASE_URL="postgresql://postgres:mrkhan@localhost:5432/postgres"
 __turbopack_async_result__();
 } catch(e) { __turbopack_async_result__(e); } }, false);}),
 "[project]/apps/web/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)", ((__turbopack_context__) => {
