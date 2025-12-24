@@ -5,6 +5,7 @@ ARG DATABASE_URL
 # ARG DATABASE_URL
 #     CLI:- docker build --build-agr DATABASE_URL="postgresql://postgres:mrkhan@localhost:5432/postgres"
 ENV DATABASE_URL=${DATABASE_URL} 
+RUN echo "DATABASE_URL during build is: $DATABASE_URL"
 COPY ./package.json ./package.json
 COPY ./packages ./packages
 COPY ./bun.lock ./bun.lock
