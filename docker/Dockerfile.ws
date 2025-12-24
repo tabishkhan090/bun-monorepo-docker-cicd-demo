@@ -8,7 +8,7 @@ COPY ./bun.lock ./bun.lock
 COPY ./turbo.json ./turbo.json
 
 COPY ./apps/websocket ./apps/websocket
-RUN bun run install
+RUN bun install
 
 RUN bun run prisma:generate
 
