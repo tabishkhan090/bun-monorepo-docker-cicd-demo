@@ -11,9 +11,9 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v3
 
-      - name: Create env file for web
-        run: |
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > apps/web/.env.production
+      # - name: Create env file for web
+      #   run: |
+      #     echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > apps/web/.env.production
 
       - name: Docker login
         uses: docker/login-action@v3
@@ -26,5 +26,7 @@ jobs:
         with:
           context: .
           file: ./docker/Dockerfile.frontend
+          build-args: |
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
           push: true
           tags: tabishkhan090/app-web:${{ github.sha }}
