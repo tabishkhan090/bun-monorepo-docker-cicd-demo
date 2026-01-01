@@ -17,3 +17,15 @@
       "outputs": [".next/**", "!.next/cache/**"],
       "env": ["DATABASE_URL"]
     },
+
+
+
+
+
+Observation
+
+Ah, ab samajh aaya tumhara point. Tum basically keh rahe ho ki jab tumne pehle .env file GitHub pe push ki thi aur usmein DATABASE_URL tha, to wo bina TurboRepo ko allow kiye bhi kaam kar raha tha.
+Toh iska reason yeh hai ki Next.js aur Prisma by default .env files ko directly read kar lete hain. Matlab agar .env file codebase mein maujood hai, to us file ko Next.js apne build process mein automatically include kar leta hai aur Prisma ko wo variable mil jata hai.
+Is case mein TurboRepo ko kuch bhi allow karne ki zaroorat nahi padti, kyunki wo environment variable already .env file se aa raha hota hai, jo sabko visible hai.
+Ab jab tumne .env file hatayi aur sirf Docker ARG ya GitHub Secrets ka istemaal kiya, to TurboRepo ko explicitly allow karna pada taaki wo env var Next.js tak pahunch sake.
+Toh basically pehle jab .env file thi, tab wo directly kaam kar raha tha bina kisi extra configuration ke, aur ab jab file nahi hai, to TurboRepo ko allow karna pad raha hai.
