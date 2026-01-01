@@ -1,0 +1,19 @@
+ when ENV database, you are not load on github while building, there are two ways to solve this:-
+
+
+1->  Updated GitHub Actions
+- name: Create env file for web
+        run: |
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > apps/web/.env.production
+
+
+
+2-> turbo.json -:   add "env": ["DATABASE_URL"]
+
+"tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": [".next/**", "!.next/cache/**"],
+      "env": ["DATABASE_URL"]
+    },
