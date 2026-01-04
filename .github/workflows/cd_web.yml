@@ -46,5 +46,5 @@ jobs:
               --name user_web \
               -p 3000:3000 \
               -e DATABASE_URL='${{ secrets.DATABASE_URL }}' \
-              tabishkhan090/app-web:${{ github.sha }}
+              tabishkhan090/app-web:latest
           EOF

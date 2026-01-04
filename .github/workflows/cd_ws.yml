@@ -38,5 +38,5 @@ jobs:
               --name user_ws \
               -p 8081:8081 \
               -e DATABASE_URL='${{ secrets.DATABASE_URL }}' \
-              tabishkhan090/app-ws:${{ github.sha }}
+              tabishkhan090/app-ws:latest
           EOF
