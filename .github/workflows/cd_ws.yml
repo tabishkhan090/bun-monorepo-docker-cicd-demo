@@ -21,7 +21,9 @@ jobs:
           context: .
           file: ./docker/Dockerfile.ws
           push: true
-          tags: tabishkhan090/app-ws:${{ github.sha }}
+          tags: |
+            tabishkhan090/app-ws:latest
+            tabishkhan090/app-ws:${{ github.sha }}
 
       - name: Deploy to VM
         run: |

@@ -29,7 +29,9 @@ jobs:
           build-args: |
             DATABASE_URL=${{ secrets.DATABASE_URL }}
           push: true
-          tags: tabishkhan090/app-web:${{ github.sha }}
+          tags: |
+            tabishkhan090/app-web:latest
+            tabishkhan090/app-web:${{ github.sha }}
 
       - name: Deploy to VM
         run: |
