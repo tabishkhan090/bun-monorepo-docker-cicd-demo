@@ -37,5 +37,6 @@ jobs:
             docker run -d \
               --name user_backend \
               -p 8080:8080 \
+              -e DATABASE_URL='${{ secrets.DATABASE_URL }}' \
               tabishkhan090/app-backend:${{ github.sha }}
           EOF
