@@ -23,8 +23,19 @@ jobs:
           push: true
           tags: tabishkhan090/app-backend:${{ github.sha }}
 
-      - name: Deploy to the VM
+      - name: Deploy to VM
         run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" &> ~/ssh_key
-          chmod 700 /home/runner/ssh_key
-          ssh -o StrictHostKeyChecking=no -i ~/ssh_key devops@20.187.150.147 -t "docker stop user_backend && docker run --name user_backend -d -p 8080:8080 tabishkhan090/app-backend:${{ github.sha }}"
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
+          chmod 600 ssh_key
+
+          ssh -o StrictHostKeyChecking=no -i ssh_key devops@20.187.150.147 << 'EOF'
+            docker pull tabishkhan090/app-backend:${{ github.sha }}
+
+            docker stop user_backend || true
+            docker rm user_backend || true
+
+            docker run -d \
+              --name user_backend \
+              -p 8080:8080 \
+              tabishkhan090/app-backend:${{ github.sha }}
+          EOF
