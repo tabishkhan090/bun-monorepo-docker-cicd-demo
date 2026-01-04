@@ -23,4 +23,20 @@ jobs:
           push: true
           tags: tabishkhan090/app-ws:${{ github.sha }}
 
-      
+      - name: Deploy to VM
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
+          chmod 600 ssh_key
+
+          ssh -o StrictHostKeyChecking=no -i ssh_key devops@20.187.150.147 << 'EOF'
+            docker pull tabishkhan090/app-ws:${{ github.sha }}
+
+            docker stop user_ws || true
+            docker rm user_ws || true
+
+            docker run -d \
+              --name user_ws \
+              -p 8081:8081 \
+              -e DATABASE_URL='${{ secrets.DATABASE_URL }}' \
+              tabishkhan090/app-ws:${{ github.sha }}
+          EOF
