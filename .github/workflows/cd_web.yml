@@ -44,7 +44,7 @@ jobs:
 
             docker run -d \
               --name user_web \
-              -p 8080:8080 \
+              -p 3000:3000 \
               -e DATABASE_URL='${{ secrets.DATABASE_URL }}' \
               tabishkhan090/app-web:${{ github.sha }}
           EOF
