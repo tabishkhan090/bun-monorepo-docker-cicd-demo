@@ -1,0 +1,107 @@
+ASCII FLOW — Browser → VM → App
+http://monorepo-proj.mdtabish.dev
+
+Browser
+  |
+  | http://monorepo-proj.mdtabish.dev
+  |
+DNS ──► 20.187.150.147
+  |
+  ▼
+VM
+ ├─ NGINX :80  ──► 301 Redirect
+ └─ NGINX :443 ──► SSL Handshake
+                    |
+                    ├─ /      → Next.js :3000
+                    ├─ /api   → Backend :8082
+                    └─ /ws    → WS :8081
+                    |
+                    ▼
+                  Response
+
+
+
+--------------------------------------------------------------------------------------------------------------
+  For  https://monorepo-proj.mdtabish.dev
+
+
+
+  +------------------+
+|    BROWSER       |
+|------------------|
+| URL: https://    |
+| monorepo-proj.   |
+| mdtabish.dev     |
++--------+---------+
+         |
+         | 1️⃣ DNS Query
+         |    "monorepo-proj.mdtabish.dev?"
+         v
++------------------+
+|      DNS         |
+|------------------|
+| A record →       |
+| 20.187.150.147   |
++--------+---------+
+         |
+         | 2️⃣ TCP Connect
+         |    20.187.150.147:443
+         v
++-------------------------------+
+|        VM (Azure)             |
+|-------------------------------|
+| NGINX listening on :443       |
++--------+----------------------+
+         |
+         | 3️⃣ SSL Handshake
+         |    Cert: monorepo-   |
+         |    proj.mdtabish.dev |
+         v
++-------------------------------+
+|   SSL VERIFIED (🔒)           |
+|-------------------------------|
+| Domain matches certificate    |
++--------+----------------------+
+         |
+         | 4️⃣ HTTP Request
+         |    GET /              |
+         |    Host: monorepo-    |
+         |    proj.mdtabish.dev  |
+         v
++-------------------------------+
+|     NGINX ROUTING             |
+|-------------------------------|
+| server_name MATCH             |
+|                               |
+| /        → localhost:3000     |
+| /api     → localhost:8082     |
+| /ws      → localhost:8081     |
++--------+----------------------+
+         |
+         | 5️⃣ Proxy Forward
+         v
++-------------------------------+
+|   APPLICATION SERVICES        |
+|-------------------------------|
+| Next.js   :3000               |
+| Backend   :8082               |
+| WebSocket :8081               |
++--------+----------------------+
+         |
+         | 6️⃣ Response
+         v
++-------------------------------+
+|        NGINX                  |
+|-------------------------------|
+| Adds headers                  |
+| Encrypts response (TLS)       |
++--------+----------------------+
+         |
+         | 7️⃣ Encrypted Response
+         v
++------------------+
+|    BROWSER       |
+|------------------|
+| HTML / JSON / WS |
+| Rendered         |
++------------------+
